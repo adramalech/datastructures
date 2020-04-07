@@ -2,25 +2,30 @@ package main
 
 import (
 	"fmt"
+	"github.com/adramalech/datastructures/trees"
 	"math/rand"
 
-	"github.com/adramalech/datastructures/trees"
 )
 
 func main() {
 	var bst trees.Tree = trees.NewNode(15)
 
-	var n int = 10000
+	var n int = 10000000
+	var k int = 800000
 
+	var i int = 1
 	var num int
 
-	for i := 0; i < n; i++ {
+	for i < k {
 		num = rand.Intn(n)
 
-		bst.Insert(num)
+		if !bst.Find(num) {
+			bst.Insert(num)
+			i++
+		}
 	}
 
-	var findNum int = bst.Find(10)
+	var count int = bst.Count()
 
-	fmt.Printf("found num = %d", findNum)
+	fmt.Printf("num = %count", count)
 }

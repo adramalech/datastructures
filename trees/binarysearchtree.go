@@ -6,6 +6,7 @@ type Tree interface {
 	Remove(value int)
 	Max() *Node
 	Min() *Node
+	Count() int
 }
 
 func (n *Node) GetValue() int {
@@ -43,6 +44,10 @@ func (n *Node) Insert(value int) {
 }
 
 func (n *Node) Min() *Node {
+	if n == nil {
+		return nil
+	}
+
 	// at a dead end return value
 	if n.isLeftNil() && n.isRightNil() {
 		return n
@@ -56,11 +61,39 @@ func (n *Node) Min() *Node {
 	return n.left.Min()
 }
 
-func (n *Node) removeMinNode() *Node {
-	return nil
+func (n *Node) Count() int {
+	if n == nil {
+		return 0
+	}
+
+	// if at a leaf return the count of the leaf.
+	if n.isLeftNil() && n.isRightNil() {
+		return 1
+	}
+
+	// if current node children both exist
+	if !n.isLeftNil() && !n.isRightNil() {
+		return 1 + n.left.Count() + n.right.Count()
+	}
+
+	// if right is nil go left
+	if n.isRightNil() {
+		return 1 + n.left.Count()
+	}
+
+	// if left is nil go right
+	if n.isLeftNil() {
+		return 1 + n.right.Count()
+	}
+
+	return 0
 }
 
 func (n *Node) Max() *Node {
+	if n == nil {
+		return nil
+	}
+
 	// at a dead end return value
 	if n.isLeftNil() && n.isRightNil() {
 		return n
@@ -75,6 +108,10 @@ func (n *Node) Max() *Node {
 }
 
 func (n *Node) Find(value int) bool {
+	if n == nil {
+		return false
+	}
+
 	// if we found the value return it.
 	if n.value == value {
 		return true
@@ -95,6 +132,10 @@ func (n *Node) Find(value int) bool {
 }
 
 func (n *Node) Remove(value int) {
+	if n == nil {
+		return
+	}
+
 	// the value is found.
 	if n.value == value {
 		// if leaf remove

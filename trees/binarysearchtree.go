@@ -1,16 +1,12 @@
 package trees
 
 type Tree interface {
-	Insert(value int)
-	Find(value int) bool
-	Remove(value int)
-	Max() *Node
-	Min() *Node
+	Insert(key int)
+	Exists(key int) bool
+	Max() int
+	Min() int
 	Count() int
-}
-
-func (n *Node) GetValue() int {
-	return n.value
+	Delete(int) *Node
 }
 
 func (n *Node) isLeftNil() bool {
@@ -21,41 +17,31 @@ func (n *Node) isRightNil() bool {
 	return n.right == nil
 }
 
-func (n *Node) Insert(value int) {
-	if value == n.value {
+func (n *Node) Insert(key int) {
+	if key == n.key {
 		// we skip
 		return
 	}
 
-	// great value add to right.
-	if value > n.value {
+	if key > n.key {
 		if n.isRightNil() {
-			n.right = NewNode(value)
+			n.right = NewNode(key)
 		} else {
-			n.right.Insert(value)
+			n.right.Insert(key)
 		}
 	} else {
 		if n.isLeftNil() {
-			n.left = NewNode(value)
+			n.left = NewNode(key)
 		} else {
-			n.left.Insert(value)
+			n.left.Insert(key)
 		}
 	}
 }
 
-func (n *Node) Min() *Node {
-	if n == nil {
-		return nil
-	}
-
-	// at a dead end return value
-	if n.isLeftNil() && n.isRightNil() {
-		return n
-	}
-
-	// if left is nil and right is greater than current then return current value.
+func (n *Node) Min() int {
+	// if left is nil and right is greater than current then return current key.
 	if n.isLeftNil() {
-		return n
+		return n.key
 	}
 
 	return n.left.Min()
@@ -89,97 +75,70 @@ func (n *Node) Count() int {
 	return 0
 }
 
-func (n *Node) Max() *Node {
-	if n == nil {
-		return nil
-	}
-
-	// at a dead end return value
-	if n.isLeftNil() && n.isRightNil() {
-		return n
-	}
-
+func (n *Node) Max() int {
 	// if right is nil return current because left will be less.
 	if n.isRightNil() {
-		return n
+		return n.key
 	}
 
 	return n.right.Max()
 }
 
-func (n *Node) Find(value int) bool {
+func (n *Node) Exists(key int) bool {
 	if n == nil {
 		return false
 	}
 
-	// if we found the value return it.
-	if n.value == value {
+	// if we found the key return it.
+	if n.key == key {
 		return true
 	}
 
-	// we are at a leaf and have not found the value return nothing.
+	// we are at a leaf and have not found the key return nothing.
 	if n.isLeftNil() && n.isRightNil() {
 		return false
 	}
 
-	// if current value is greater than current value search right.
-	if value > n.value {
-		return n.right.Find(value)
+	// if current key is greater than current key search right.
+	if key > n.key {
+		return n.right.Exists(key)
 	}
 
-	// else current value is less than current value search left.
-	return n.left.Find(value)
+	// else current key is less than current key search left.
+	return n.left.Exists(key)
 }
 
-func (n *Node) Remove(value int) {
+func (n *Node) Delete(key int)  *Node {
+	// key isn't found.
 	if n == nil {
-		return
+		return n
 	}
 
-	// the value is found.
-	if n.value == value {
-		// if leaf remove
-		if n.isLeftNil() && n.isRightNil() {
-			n = nil
-			return
-		}
+	// key is less than current node travel left.
+	if key < n.key {
+		n.left = n.left.Delete(key)
+	}
 
-		// move right child up if left is empty
-		if n.isLeftNil() {
-			n = n.right
-			return
-		}
+	// key is greater than current node travel right
+	if key > n.key {
+		n.right = n.right.Delete(key)
+	}
 
-		// move left child up if right is empty
-		if n.isRightNil() {
-			n = n.left
-			return
-		}
-
-		// neither is empty move up child with minimum greatest value.
+	if key == n.key {
 		if !n.isLeftNil() && !n.isRightNil() {
-			var minNode *Node = n.right.Min()
-			var rightChild *Node = n.right
-			var leftChild *Node = n.left
+			//set N key to minimum of right.
+			n.key = n.right.Min()
 
-			n = minNode
-			n.right = rightChild
-			n.left = leftChild
+			//delete the node of the right side.
+			n.right = n.right.Delete(n.key)
 		}
 
-		return
+		if n.isRightNil() {
+			return n.left
+		} else {
+			return n.right
+		}
 	}
 
-	// if we are at leaf return (dead end = "nothing found")
-	if n.isLeftNil() && n.isRightNil() {
-		return
-	}
-
-	// if value is greater than current value go right
-	// else value is left go left.
-	if value > n.value {
-		n.right.Remove(value)
-	} else {
-		n.left.Remove(value)
-	}
+	return n
 }

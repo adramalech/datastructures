@@ -3,9 +3,9 @@ package trees
 type Node struct {
 	left  *Node
 	right *Node
-	value int
+	key int
 }
 
-func NewNode(value int) *Node {
-	return &Node{nil, nil, value}
+func NewNode(key int) *Node {
+	return &Node{nil, nil, key}
 }

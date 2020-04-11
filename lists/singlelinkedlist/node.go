@@ -1,10 +1,10 @@
 package singlelinkedlist
 
-type Node struct {
-	next *Node
+type node struct {
+	next *node
 	value int
 }
 
-func newNode(value int) *Node {
-	return &Node{nil, value}
+func newNode(value int) *node {
+	return &node{nil, value}
 }

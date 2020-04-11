@@ -2,6 +2,7 @@ package binarysearchtree
 
 import (
 	"github.com/adramalech/datastructures/models"
+	"github.com/adramalech/datastructures/trees"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -11,7 +12,7 @@ func Test_CountRootNodeShouldBeZero(t *testing.T) {
 	t.Parallel()
 
 	// assign
-	var root Tree = NewBinarySearchTree()
+	var root trees.Tree = NewBinarySearchTree()
 	expectedCount := 0
 
 	// act
@@ -24,7 +25,7 @@ func Test_CountRootNodeShouldBeZero(t *testing.T) {
 func Test_RemoveNodeShouldntExist(t *testing.T) {
 	t.Parallel()
 
-	var bst Tree = NewBinarySearchTree()
+	var bst trees.Tree = NewBinarySearchTree()
 
 	bst.Insert(5, models.NewPerson("john", "jacob", "smith"))
 
@@ -38,7 +39,7 @@ func Test_RemoveNodeShouldntExist(t *testing.T) {
 func Test_RemoveNodeFromLargeTree(t *testing.T) {
 	t.Parallel()
 
-	var bst Tree = NewBinarySearchTree()
+	var bst trees.Tree = NewBinarySearchTree()
 
 	bst.Insert(10,  models.NewPerson("john", "jacob", "smith"))
 	bst.Insert(5,  models.NewPerson("john", "jacob", "smith"))
@@ -57,7 +58,7 @@ func Test_RemoveNodeFromLargeTree(t *testing.T) {
 func Test_NodeInsertedShouldExist(t *testing.T) {
 	t.Parallel()
 
-	var bst Tree = NewBinarySearchTree()
+	var bst trees.Tree = NewBinarySearchTree()
 
 	bst.Insert(10, models.NewPerson("test", "tester", "testest"))
 

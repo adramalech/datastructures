@@ -1,19 +1,22 @@
 package singlelinkedlist
 
 import (
-	"github.com/stretchr/testify/assert"
+	list "github.com/adramalech/datastructures/lists"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSingleLinkedList_Count(t *testing.T) {
 	t.Parallel()
 
-	var list SingleLinkedList = NewSingleLinkedList()
+	var l list.IList = NewSingleLinkedList()
+
 	expectedCount := 1
 
-	list.Insert(5)
+	l.Insert(5)
 
-	actualCount := list.Count()
+	actualCount := l.Count()
 
 	assert.Equal(t, expectedCount, actualCount)
 }
@@ -21,15 +24,15 @@ func TestSingleLinkedList_Count(t *testing.T) {
 func TestSingleLinkedList_Find(t *testing.T) {
 	t.Parallel()
 
-	var list SingleLinkedList = NewSingleLinkedList()
+	var l list.IList = NewSingleLinkedList()
 
-	list.Insert(1)
-	list.Insert(2)
-	list.Insert(3)
-	list.Insert(4)
-	list.Insert(5)
+	l.Insert(1)
+	l.Insert(2)
+	l.Insert(3)
+	l.Insert(4)
+	l.Insert(5)
 
-	found := list.Find(3)
+	found := l.Find(3)
 
 	assert.True(t, found)
 }
@@ -37,29 +40,30 @@ func TestSingleLinkedList_Find(t *testing.T) {
 func TestSingleLinkedList_Insert(t *testing.T) {
 	t.Parallel()
 
-	var list SingleLinkedList = NewSingleLinkedList()
+	var l list.IList = NewSingleLinkedList()
 
 	expectedValue := 5
 
-	list.Insert(expectedValue)
+	l.Insert(expectedValue)
 
-	assert.Equal(t, expectedValue, list.root.value)
+	shouldBeFound := l.Find(5)
+	assert.True(t, shouldBeFound)
 }
 
 func TestSingleLinkedList_Remove(t *testing.T) {
 	t.Parallel()
 
-	var list SingleLinkedList = NewSingleLinkedList()
+	var l list.IList = NewSingleLinkedList()
 
-	list.Insert(1)
-	list.Insert(2)
-	list.Insert(3)
-	list.Insert(4)
-	list.Insert(5)
+	l.Insert(1)
+	l.Insert(2)
+	l.Insert(3)
+	l.Insert(4)
+	l.Insert(5)
 
-	list.Remove(3)
+	l.Remove(3)
 
-	count := list.Count()
+	count := l.Count()
 
 	assert.Equal(t, count, 4)
 }

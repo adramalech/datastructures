@@ -3,7 +3,7 @@ package binarysearchtree
 import "github.com/adramalech/datastructures/models"
 
 type BinarySeachTree struct {
-	root *Node
+	root *node
 }
 
 func NewBinarySearchTree() *BinarySeachTree {
@@ -39,7 +39,7 @@ func (bst *BinarySeachTree) Delete(key int) {
 
 // binary search tree helpers
 
-func countNode(n *Node) int {
+func countNode(n *node) int {
 	if n == nil {
 		return 0
 	}
@@ -52,7 +52,7 @@ func countNode(n *Node) int {
 	return 1 + countNode(n.left) + countNode(n.right)
 }
 
-func deleteNode(n *Node, key int) *Node {
+func deleteNode(n *node, key int) *node {
 	if n == nil {
 		return nil
 	}
@@ -94,7 +94,7 @@ func deleteNode(n *Node, key int) *Node {
 	return n
 }
 
-func insertNode(node *Node, key int, value models.Person) *Node {
+func insertNode(node *node, key int, value models.Person) *node {
 	if node == nil {
 		node = newNode(key, value)
 		return node
@@ -113,7 +113,7 @@ func insertNode(node *Node, key int, value models.Person) *Node {
 	return node
 }
 
-func nodeExists(n *Node, key int) bool {
+func nodeExists(n *node, key int) bool {
 	if n == nil {
 		return false
 	}
@@ -129,7 +129,7 @@ func nodeExists(n *Node, key int) bool {
 	return nodeExists(n.left, key)
 }
 
-func minNode(n *Node) *Node {
+func minNode(n *node) *node {
 	if n.left == nil {
 		return n
 	}

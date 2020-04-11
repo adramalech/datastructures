@@ -1,11 +1,11 @@
 package singlelinkedlist
 
 type SingleLinkedList struct {
-	root *Node
+	root *node
 }
 
-func NewSingleLinkedList() SingleLinkedList {
-	return SingleLinkedList{nil}
+func NewSingleLinkedList() *SingleLinkedList {
+	return &SingleLinkedList{nil}
 }
 
 func (s *SingleLinkedList) Count() int {
@@ -13,7 +13,7 @@ func (s *SingleLinkedList) Count() int {
 	return cnt
 }
 
-func count(n *Node) int {
+func count(n *node) int {
 	if n == nil {
 		return 0
 	}
@@ -22,25 +22,25 @@ func count(n *Node) int {
 }
 
 func (s *SingleLinkedList) Insert(value int) {
-	s.root = insert(s.root, value)
+	s.root = insertNode(s.root, value)
 }
 
-func insert(n *Node, value int) *Node {
+func insertNode(n *node, value int) *node {
 	if n == nil {
 		n = newNode(value)
 		return n
 	}
 
-	n.next = insert(n.next, value)
+	n.next = insertNode(n.next, value)
 	return n
 }
 
-func (s * SingleLinkedList) Find(value int) bool {
-	found := find(s.root, value)
+func (s *SingleLinkedList) Find(value int) bool {
+	found := findNode(s.root, value)
 	return found
 }
 
-func find(n *Node, value int) bool {
+func findNode(n *node, value int) bool {
 	if n == nil {
 		return false
 	}
@@ -49,14 +49,14 @@ func find(n *Node, value int) bool {
 		return true
 	}
 
-	return find(n.next, value)
+	return findNode(n.next, value)
 }
 
 func (s *SingleLinkedList) Remove(value int) {
-	s.root = remove(s.root, value)
+	s.root = removeNode(s.root, value)
 }
 
-func remove(n *Node, value int) *Node {
+func removeNode(n *node, value int) *node {
 	if n == nil {
 		return nil
 	}
@@ -66,6 +66,6 @@ func remove(n *Node, value int) *Node {
 		return n
 	}
 
-	n.next = remove(n.next, value)
+	n.next = removeNode(n.next, value)
 	return n
 }

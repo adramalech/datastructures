@@ -1,4 +1,4 @@
-package binarysearchtree
+package trees
 
 import "github.com/adramalech/datastructures/models"
 

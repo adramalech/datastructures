@@ -1,6 +1,6 @@
-package singlelinkedlist
+package list
 
-type List interface {
+type IList interface {
 	Insert(int)
 	Count() int
 	Find(int) bool
